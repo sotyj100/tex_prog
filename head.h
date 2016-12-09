@@ -1,6 +1,14 @@
-#ifndef HEAD_H_INCLUDED
-#define HEAD_H_INCLUDED
+#include <string>
+#include <io.h>
 
-NEW FILE TEST
+using namespace std;
 
-#endif // HEAD_H_INCLUDED
+class FIter
+{
+    std::string name;
+    std::string path;
+public:
+    FIter();
+    FIter(const std::string& name, const std::string& path);
+    void show();
+};
