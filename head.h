@@ -12,3 +12,4 @@ public:
     FIter(const std::string& name, const std::string& path);
     void show();
 };
+new izmeneniya
