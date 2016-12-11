@@ -52,3 +52,12 @@ F_Name* F_Poisk::next()
     cache = NULL;
     return res;
 }
+
+bool F_Poisk::hasMore()
+{
+    cache = search(maska);
+    if (this->cache != NULL)
+        return true;
+    else
+        return false;
+}
