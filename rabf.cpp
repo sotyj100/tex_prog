@@ -46,12 +46,6 @@ void F_Poisk::setmaska(const string& mask)
     maska = mask;
 }
 
-F_Name* F_Poisk::next()
-{
-    F_Name* res = cache;
-    cache = NULL;
-    return res;
-}
 
 bool F_Poisk::hasMore()
 {
