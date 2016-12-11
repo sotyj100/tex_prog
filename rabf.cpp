@@ -1,29 +1,27 @@
 #include "head.h"
-#include <string>
-
-#include <iostream>
 #include <io.h>
+#include <string>
+#include <iostream>
+
 using namespace std;
 
-FIter_nn::FIter_nn(const string& fileMask)
+Poisk_failov::Poisk_failov(const string& fileMask)
 {
     this->fileMask = fileMask;
     FindHandle = 0;
 }
 
-inline bool FIter_nn::IsDirectory(const _finddata_t &FindData)
+inline bool Poisk_failov::IsDirectory(const _finddata_t &FindData)
     {
         return ((FindData.attrib & _A_SUBDIR) != 0);
-}
-
-bool FIter_nn::compareToMask(const string& mask, const string& file)
+    }
+bool Poisk_failov::compareToMask(const string& mask, const string& file)
 {
-int ab = 0;
-
-for (int i = 0; i < mask.length(); i++)
-        for (int j = ab; j < file.length(); j++)
+    int pos = 0;
+    for (int i = 0; i < mask.length(); i++)
+        for (int j = pos; j < file.length(); j++)
         {
-            ab = j;
+            pos = j;
             if (mask[i] == '*')
             {
                 if (file[j] == '.')
@@ -33,28 +31,29 @@ for (int i = 0; i < mask.length(); i++)
                 else
                     continue;
             }
-            else if ((mask[i] == '?') || (mask[i] == mask[j]))
+            else if ((mask[i] == '?') || (mask[i] == file[j]))
             {
-                ab++;
+                pos++;
                 break;
             }
             return false;
         }
     return true;
-}
-FIter* FIter_nn::next()
-{
-    FIter* res = cache;
-    cache = NULL;
-    return res;
-}
+    }
 
-void FIter_nn::setFileMask(const string& mask)
+void Poisk_failov::setFileMask(const string& mask)
 {
     fileMask = mask;
 }
 
-bool FIter_nn::hasMore()
+F_Name* Poisk_failov::next()
+{
+    F_Name* res = cache;
+    cache = NULL;
+    return res;
+}
+
+bool Poisk_failov::hasMore()
 {
     cache = search(fileMask);
     if (this->cache != NULL)
@@ -63,9 +62,7 @@ bool FIter_nn::hasMore()
         return false;
 }
 
-
-
-FIter* FIter_nn::search(const string& fileMask)
+F_Name* Poisk_failov::search(const string& fileMask)
 {
     _finddata_t FindData;
 
@@ -82,35 +79,24 @@ FIter* FIter_nn::search(const string& fileMask)
         {
             string newFileMask = fileMask;
             newFileMask.insert(fileMask.find_last_of('\\') + 1, string(FindData.name) + '\\');
-            this->subIterator = new FIter_nn(newFileMask);
-            while (this->subIterator->hasMore())
-                this->subIterator->next()->show();
+            this->subPoisk = new Poisk_failov(newFileMask);
+            while (this->subPoisk->hasMore())
+                this->subPoisk->next()->show();
         }
-        if (compareToMask(fileMask.substr(fileMask.find_last_of('\\') + 1), string(FindData.name)))
-        {
-            string name = string(FindData.name);
-            string path = defFileMask.substr(0, defFileMask.find_last_of('\\'));
-            if (path == "*.*")
-                path = "root";
-            cache = new FIter(name, path);
-            return cache;
-        }
-    }
-    _findclose(FindHandle);
+
         return NULL;
 }
 
+F_Name::F_Name() {};
 
-FIter::FIter() {};
-
-FIter::FIter(const string& name, const string& path)
+F_Name::F_Name(const string& name, const string& path)
 {
     this->name = name;
     this->path = path;
 }
 
-void FIter::show()
+void F_Name::show()
 {
     cout << "File :" << name << endl;
-    cout << "In catalog: " << path << endl << endl;
+    cout << "In directory: " << path << endl << endl;
 }
