@@ -3,35 +3,36 @@
 
 using namespace std;
 
-class FIter
+class F_Name
 {
     std::string name;
-    std::string path;
+    std::string ras;
 public:
-
-    FIter();
-    FIter(const std::string& name, const std::string& path);
+    F_Name();
+    F_Name(const std::string& name, const std::string& ras);
     void show();
 };
 
-
-class FIter_nn
+class F_Poisk
 {
-    FIter* cache;
-    FIter* search(const string& fileMask);
-    FIter_nn* subIterator;
+    F_Name* cache;
+    F_Name* search(const string& maska);
 
-    string fileMask;
+    F_Poisk* subPoisk;
+
+    string maska;
     intptr_t FindHandle;
 
     inline bool IsDirectory(const _finddata_t &FindData);
     bool compareToMask(const string& mask, const string& file);
 
 public:
-    FIter_nn() : FindHandle(NULL) {};
-    FIter_nn(const string& fileMask);
-    void setFileMask(const string& mask);
+    F_Poisk() : FindHandle(NULL) {};
+
+    F_Poisk(const string& maska);
+    void setmaska(const string& mask);
+
     bool hasMore();
-    FIter* next();
+    F_Name* next();
 
 };
