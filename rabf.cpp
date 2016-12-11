@@ -17,4 +17,27 @@ inline bool FIter_nn::IsDirectory(const _finddata_t &FindData)
 
 bool FIter_nn::compareToMask(const string& mask, const string& file)
 {
-int pos = 0;
+int ab = 0;
+
+for (int i = 0; i < mask.length(); i++)
+        for (int j = ab; j < mask.length(); j++)
+        {
+            ab = j;
+            if (mask[i] == '*')
+            {
+                if (mask[j] == '.')
+                {
+                    break;
+                }
+                else
+                    continue;
+            }
+            else if ((mask[i] == '?') || (mask[i] == mask[j]))
+            {
+                ab++;
+                break;
+            }
+            return false;
+        }
+    return true;
+}
