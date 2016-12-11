@@ -16,10 +16,10 @@ public:
 
 class FIter_nn
 {
-    FileItem* cache;
-    FileItem* search(const string& fileMask);
+    FIter* cache;
+    FIter* search(const string& fileMask);
 
-    FileIterator* subIterator;
+    FIter_nn* subIterator;
 
     string fileMask;
     intptr_t FindHandle;
@@ -28,10 +28,10 @@ class FIter_nn
     bool compareToMask(const string& mask, const string& file);
 
 public:
-    FileIterator() : FindHandle(NULL) {};
-    FileIterator(const string& fileMask);
+    FIter_nn() : FindHandle(NULL) {};
+    FIter_nn(const string& fileMask);
     void setFileMask(const string& mask);
     bool hasMore();
-    FileItem* next();
+    FIter next();
 
 };
