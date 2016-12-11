@@ -41,3 +41,23 @@ for (int i = 0; i < mask.length(); i++)
         }
     return true;
 }
+FIter* FIter_nn::next()
+{
+    FileItem* res = cache;
+    cache = NULL;
+    return res;
+}
+
+void FileIterator::setFileMask(const string& mask)
+{
+    fileMask = mask;
+}
+
+bool FIter_nn::hasMore()
+{
+    cache = search(fileMask);
+    if (this->cache != NULL)
+        return true;
+    else
+        return false;
+}
