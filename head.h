@@ -25,7 +25,7 @@ class FIter_nn
     intptr_t FindHandle;
 
     inline bool IsDirectory(const _finddata_t &FindData);
-bool compareToMask(const string& mask, const string& file);
+    bool compareToMask(const string& mask, const string& file);
 
 public:
     FileIterator() : FindHandle(NULL) {};
