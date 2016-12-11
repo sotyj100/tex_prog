@@ -10,4 +10,14 @@ F_Poisk::F_Poisk(const string& maska)
     FindHandle = 0;
 }
 
+void F_Poisk::setmaska(const string& mask)
+{
+    maska = mask;
+}
 
+F_Name* F_Poisk::next()
+{
+    F_Name* res = cache;
+    cache = NULL;
+    return res;
+}
