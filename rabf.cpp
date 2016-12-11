@@ -20,12 +20,12 @@ bool FIter_nn::compareToMask(const string& mask, const string& file)
 int ab = 0;
 
 for (int i = 0; i < mask.length(); i++)
-        for (int j = ab; j < mask.length(); j++)
+        for (int j = ab; j < file.length(); j++)
         {
             ab = j;
             if (mask[i] == '*')
             {
-                if (mask[j] == '.')
+                if (file[j] == '.')
                 {
                     break;
                 }
