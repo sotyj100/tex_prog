@@ -1,75 +1,29 @@
+#include "head.h"
+#include <string>
 #include <iostream>
-#include <windows.h>
+
 using namespace std;
 
-class Event
+int main(int argc, char *argv[])
 {
-    HANDLE hEvent;
-public:
-    Event() {
-    hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-    cout << endl << "ThreadCreateId: " << GetCurrentThreadId() << endl;
+    string maska;
+    F_Poisk* fff = new F_Poisk();
+
+    if (argc > 1)
+        maska = argv[1];
+    else
+    {
+        cout << "Vvod disk, catalog, and/or maska faila ([drive:][ras]maska): ";
+        cin >> maska;
+        cout << endl;
+        if (!maska.length())
+            return 1;
     }
 
-    ~Event() {
-    cout << endl << "ThreadDestoydId: " << GetCurrentThreadId() << endl;
-        CloseHandle(hEvent);
-    }
+    fff->setmaska(maska);
 
+    while (fff->hasMore())
+        fff->next()->show();
 
-    void set() {
-    SetEvent(hEvent);
-    cout << endl << "ThreadDestoydId: " << GetCurrentThreadId() << endl;
-    }
-
-    void reset(){
-    ResetEvent(hEvent);
-    }
-
-    void wait() {
-   cout << endl << "WaitThreadId: " << GetCurrentThreadId() << endl;
-    WaitForSingleObject(hEvent, INFINITE);
-    }
-
-};
-class CriticalSection : public Lock {
-private:
-    CRITICAL_SECTION Crit_Sect;
-public:
-    CriticalSection() {
-    InitializeCriticalSection(&Crit_Sect);
-    }
-
-    ~CriticalSection() {
-    }
-
-void lock() {
-    EnterCriticalSection(&Crit_Sect);
-    }
-
-    void unlock() {
-    LeaveCriticalSection(&Crit_Sect);
-    }
-};
-
-class Semaphor : public Lock {
-private:
-    int count_m;
-    int count;
-    CriticalSection *tCrit_Sect;
-    Event *event;
-public:
-    Semaphor(int count_m) : count_m(count_m), count(0){
-    tCrit_Sect = new CriticalSection();
-    event = new Event();
-    }
-
-    ~Semaphor(){
-    delete event;
-    delete tCrit_Sect;
-    }
-
-int main()
-{
-
+    return 0;
 }
